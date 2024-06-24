@@ -5,7 +5,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Publish Biceps
-        run: echo "Hi hello!"
+        run: |
+          echo "Hi hello!"
+          echo ${GITHUB_WORKSPACE}
 
       - name: Store the distribution packages
         uses: actions/upload-artifact@v3
