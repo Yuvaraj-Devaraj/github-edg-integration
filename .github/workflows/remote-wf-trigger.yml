@@ -8,9 +8,11 @@ jobs:
         run: |
           echo "Hi hello!"
           echo ${GITHUB_WORKSPACE}
+          echo "-------------"
+          ls ${GITHUB_WORKSPACE}
 
       - name: Store the distribution packages
         uses: actions/upload-artifact@v3
         with:
           name: edg-range-integration-bicep-package
-          path: ${GITHUB_WORKSPACE}/range/
+          path: ${GITHUB_WORKSPACE}/range
