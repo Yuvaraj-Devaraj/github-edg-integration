@@ -23,7 +23,7 @@ jobs:
 
       - name: print artefact url
         run: |
-            echo ${{ steps.package.outputs.Artifact-download-URL}}
+            echo ${{ steps.package.outputs.artifact-url}}
 
       - name: Trigger target workflow with parameter
         env:
@@ -33,4 +33,4 @@ jobs:
             -H "Accept: application/vnd.github.v3+json" \
             -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/repos/Yuvaraj-Devaraj/github-edg-pipelines/actions/workflows/dev-deploy-workflow.yml/dispatches \
-            -d '{"ref":"main", "inputs": {"param": "${{ steps.package.outputs.Artifact-download-URL}}"}}'
+            -d '{"ref":"main", "inputs": {"param": "${{ steps.package.outputs.artifact-url}}"}}'
