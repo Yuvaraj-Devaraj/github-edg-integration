@@ -4,6 +4,9 @@ jobs:
   job1:
     runs-on: ubuntu-latest
     steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Publish Biceps
         run: |
           echo "Hi hello!"
