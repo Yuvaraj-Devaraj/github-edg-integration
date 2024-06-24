@@ -11,4 +11,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: edg-range-integration-bicep-package
-          path: range/
+          path: ${GITHUB_WORKSPACE}/range/
