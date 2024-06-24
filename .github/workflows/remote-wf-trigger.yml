@@ -19,3 +19,18 @@ jobs:
         with:
           name: edg-range-integration-bicep-package
           path: range
+        id: package
+
+      - name: print artefact url
+        run: |
+            echo ${{ steps.package.outputs.Artifact-download-URL}}
+
+      - name: Trigger target workflow with parameter
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
+        run: |
+          curl -X POST \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/repos/Yuvaraj-Devaraj/github-edg-pipelines/actions/workflows/dev-deploy-workflow.yml/dispatches \
+            -d '{"ref":"main", "inputs": {"param": "${{ steps.package.outputs.Artifact-download-URL}}"}}'
