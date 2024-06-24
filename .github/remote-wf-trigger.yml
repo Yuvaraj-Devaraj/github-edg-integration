@@ -1,0 +1,14 @@
+name: Publish Bicep Package
+on: workflow_dispatch
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Publish Biceps
+        run: echo "Hi hello!"
+
+      - name: Store the distribution packages
+        uses: actions/upload-artifact@v3
+        with:
+          name: edg-range-integration-bicep-package
+          path: range/
