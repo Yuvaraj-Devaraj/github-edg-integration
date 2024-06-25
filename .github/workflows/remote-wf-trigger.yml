@@ -7,17 +7,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Publish Biceps
-        run: |
-          echo "Hi hello!"
-          echo ${GITHUB_WORKSPACE}
-          echo "-------------"
-          ls ${GITHUB_WORKSPACE}
-
       - name: Store the distribution packages
         uses: actions/upload-artifact@v4
         with:
-          name: edg-range-integration-bicep-package
+          name: bicep-package
           path: range
         id: package
 
