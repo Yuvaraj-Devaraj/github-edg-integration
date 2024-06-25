@@ -25,7 +25,7 @@ param location_shortname string
 
 // Create/get integration resource group
 resource managementrg 'Microsoft.Resources/resourceGroups@2024-03-01' = {
-  name: 'rg-rpic-${franchisee}-management-${environment}-${location_shortname}'
+  name: 'rg-edg-${franchisee}-management-${environment}-${location_shortname}'
   location: location
 }
 
@@ -34,7 +34,7 @@ module managedidentity 'managedidentity.bicep' = {
   name: 'CreateManagedIdentity'
   scope: managementrg
   params: {
-    identityName: 'mi-rpic-${franchisee}-${environment}-${location_shortname}'
+    identityName: 'mi-edg-${franchisee}-automation-${environment}-${location_shortname}'
     location: location
   }
 }
