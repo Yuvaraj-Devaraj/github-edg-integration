@@ -29,10 +29,12 @@ jobs:
             -d '{"ref":"main", "inputs": {"github_package_url": "${{ steps.package.outputs.artifact-url}}", "github_artefact_id": "${{ steps.package.outputs.artifact-id}}", "github_caller_workflow_run_id": "${{github.run_id}}", "github_sha_id": "${{github.sha}}", "github_workflow_name": "${{github.workflow}}", "github_repository_name": "${{github.repository}}" }}'
 
       - name: set variable value
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
         run: |
           gh variable set PackageSHALevel --body ${{github.sha}}
 
-          
+
   # set-package-sha-level:
   #   runs-on: ubuntu-latest
   #   needs: [create-package]
