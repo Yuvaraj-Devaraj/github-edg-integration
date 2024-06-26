@@ -3,36 +3,41 @@ on: workflow_dispatch
 jobs:
   create-package:
     runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Store the distribution packages
-        uses: actions/upload-artifact@v4
-        with:
-          name: bicep-package
-          path: range
-        id: package
-
-      - name: print artefact url
+      - name: Get Previous SHA level
+        shell: pwsh
         run: |
-            echo ${{ steps.package.outputs.artifact-url}}
+          $command="gh variable get Package_SHA_Level"
+          $sha=Invoke-Command -ScriptBlock $command
+          write-host "SHA: " $sha
 
-      - name: Trigger target workflow with parameter
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: |
-          curl -X POST \
-            -H "Accept: application/vnd.github.v3+json" \
-            -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/repos/Yuvaraj-Devaraj/github-edg-pipelines/actions/workflows/dev-deploy-workflow.yml/dispatches \
-            -d '{"ref":"main", "inputs": {"github_package_url": "${{ steps.package.outputs.artifact-url}}", "github_artefact_id": "${{ steps.package.outputs.artifact-id}}", "github_caller_workflow_run_id": "${{github.run_id}}", "github_sha_id": "${{github.sha}}", "github_workflow_name": "${{github.workflow}}", "github_repository_name": "${{github.repository}}" }}'
+      # - name: Store the distribution packages
+      #   uses: actions/upload-artifact@v4
+      #   with:
+      #     name: bicep-package
+      #     path: range
+      #   id: package
 
-      - name: set variable value
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_TOKEN }}
-        run: |
-          gh variable set PackageSHALevel --body ${{github.sha}}
+      # - name: print artefact url
+      #   run: |
+      #       echo ${{ steps.package.outputs.artifact-url}}
+
+      # - name: Trigger target workflow with parameter
+      #   run: |
+      #     curl -X POST \
+      #       -H "Accept: application/vnd.github.v3+json" \
+      #       -H "Authorization: token $GITHUB_TOKEN" \
+      #       https://api.github.com/repos/Yuvaraj-Devaraj/github-edg-pipelines/actions/workflows/dev-deploy-workflow.yml/dispatches \
+      #       -d '{"ref":"main", "inputs": {"github_package_url": "${{ steps.package.outputs.artifact-url}}", "github_artefact_id": "${{ steps.package.outputs.artifact-id}}", "github_caller_workflow_run_id": "${{github.run_id}}", "github_sha_id": "${{github.sha}}", "github_workflow_name": "${{github.workflow}}", "github_repository_name": "${{github.repository}}" }}'
+
+      # - name: set variable value
+      #   run: |
+      #     gh variable set Package_SHA_Level --body ${{github.sha}}
 
 
   # set-package-sha-level:
