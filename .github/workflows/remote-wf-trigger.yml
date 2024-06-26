@@ -28,12 +28,17 @@ jobs:
             https://api.github.com/repos/Yuvaraj-Devaraj/github-edg-pipelines/actions/workflows/dev-deploy-workflow.yml/dispatches \
             -d '{"ref":"main", "inputs": {"github_package_url": "${{ steps.package.outputs.artifact-url}}", "github_artefact_id": "${{ steps.package.outputs.artifact-id}}", "github_caller_workflow_run_id": "${{github.run_id}}", "github_sha_id": "${{github.sha}}", "github_workflow_name": "${{github.workflow}}", "github_repository_name": "${{github.repository}}" }}'
 
-  set-package-sha-level:
-    runs-on: ubuntu-latest
-    needs: [create-package]
-    env:
-      GH_TOKEN: ${{ github.token }}
-    steps:
       - name: set variable value
         run: |
           gh variable set PackageSHALevel --body ${{github.sha}}
+
+          
+  # set-package-sha-level:
+  #   runs-on: ubuntu-latest
+  #   needs: [create-package]
+  #   env:
+  #     GH_TOKEN: ${{ github.token }}
+  #   steps:
+  #     - name: set variable value
+  #       run: |
+  #         gh variable set PackageSHALevel --body ${{github.sha}}
