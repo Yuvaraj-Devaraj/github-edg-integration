@@ -13,7 +13,7 @@ jobs:
         shell: pwsh
         run: |
           $command="gh variable get Package_SHA_Level"
-          $sha=Invoke-Command $command
+          $sha=Invoke-Expression $command
           write-host "SHA: " $sha
 
       # - name: Store the distribution packages
